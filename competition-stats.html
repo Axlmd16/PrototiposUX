@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Soccer Stats - Competencias</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="styles/main.css" />
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo">Soccer Stats</div>
+            <button
+                class="hamburger"
+                aria-label="Abrir menú"
+                aria-controls="main-nav"
+                aria-expanded="false"
+                onclick="toggleMenu()"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="main-nav">
+                <a href="index.html">Inicio</a>
+                <a href="team-stats.html">Equipos</a>
+                <a href="player-stats.html">Jugadores</a>
+                <a href="competition-stats.html" class="active">Competencias</a>
+                <a href="live-match.html">En Vivo</a>
+            </nav>
+            <div class="user-avatar">JD</div>
+        </header>
+
+        <div class="container">
+            <h1 class="page-title">Estadísticas de la Competencia</h1>
+            <p style="text-align: center; margin-bottom: 2rem; color: #666">
+                Resumen general de La Liga en la temporada actual.
+            </p>
+
+            <div class="stats-grid" id="competition-stats-grid"></div>
+
+            <div class="section">
+                <h2>Líderes Individuales</h2>
+                <div class="stats-grid">
+                    <div class="stat-card" id="top-scorer"></div>
+                    <div class="stat-card" id="top-assister"></div>
+                    <div class="stat-card" id="most-disciplined"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="scripts/data.js"></script>
+        <script src="scripts/main.js"></script>
+        <script src="scripts/competition-stats.js"></script>
+        <script>
+            function toggleMenu() {
+                const nav = document.getElementById("main-nav");
+                const btn = document.querySelector(".hamburger");
+                const expanded = btn.getAttribute("aria-expanded") === "true";
+                nav.classList.toggle("open");
+                btn.setAttribute("aria-expanded", !expanded);
+                document.body.style.overflow = nav.classList.contains("open")
+                    ? "hidden"
+                    : "";
+            }
+            window.addEventListener("click", function (e) {
+                const nav = document.getElementById("main-nav");
+                const btn = document.querySelector(".hamburger");
+                if (
+                    nav.classList.contains("open") &&
+                    !nav.contains(e.target) &&
+                    !btn.contains(e.target)
+                ) {
+                    nav.classList.remove("open");
+                    btn.setAttribute("aria-expanded", false);
+                    document.body.style.overflow = "";
+                }
+            });
+        </script>
+    </body>
+</html>

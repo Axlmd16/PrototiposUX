@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Soccer Stats - En Vivo</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="styles/main.css" />
+        <link rel="stylesheet" href="styles/live-match.css" />
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo">Soccer Stats</div>
+            <button
+                class="hamburger"
+                aria-label="Abrir menú"
+                aria-controls="main-nav"
+                aria-expanded="false"
+                onclick="toggleMenu()"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="main-nav">
+                <a href="index.html">Inicio</a>
+                <a href="team-stats.html">Equipos</a>
+                <a href="player-stats.html">Jugadores</a>
+                <a href="competition-stats.html">Competencias</a>
+                <a href="live-match.html" class="active">En Vivo</a>
+            </nav>
+            <div class="user-avatar">JD</div>
+        </header>
+
+        <div class="container">
+            <h1 class="page-title">Partido en Vivo</h1>
+
+            <div class="live-match-container">
+                <div class="scoreboard">
+                    <div class="team team-home">
+                        <img
+                            src="https://via.placeholder.com/50"
+                            alt="Logo Equipo Local"
+                            class="team-logo"
+                        />
+                        <span class="team-name">Real Madrid</span>
+                    </div>
+                    <div class="score">
+                        <span id="home-score">2</span> -
+                        <span id="away-score">1</span>
+                    </div>
+                    <div class="team team-away">
+                        <img
+                            src="https://via.placeholder.com/50"
+                            alt="Logo Equipo Visitante"
+                            class="team-logo"
+                        />
+                        <span class="team-name">FC Barcelona</span>
+                    </div>
+                    <div class="match-time">
+                        <span id="minute">82'</span>
+                    </div>
+                </div>
+
+                <div class="match-tabs">
+                    <button
+                        class="tab-link active"
+                        onclick="openTab(event, 'events')"
+                    >
+                        Eventos
+                    </button>
+                    <button class="tab-link" onclick="openTab(event, 'stats')">
+                        Estadísticas
+                    </button>
+                </div>
+
+                <div id="events" class="tab-content" style="display: block">
+                    <ul class="timeline"></ul>
+                </div>
+
+                <div id="stats" class="tab-content">
+                    <div class="stats-comparison">
+                        <div class="stat-row">
+                            <span class="stat-label">Posesión</span>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar home" style="width: 62%">
+                                    62%
+                                </div>
+                                <div class="stat-bar away" style="width: 38%">
+                                    38%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Tiros a Puerta</span>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar home" style="width: 55%">
+                                    8
+                                </div>
+                                <div class="stat-bar away" style="width: 45%">
+                                    6
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Faltas</span>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar home" style="width: 40%">
+                                    10
+                                </div>
+                                <div class="stat-bar away" style="width: 60%">
+                                    15
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="scripts/main.js"></script>
+        <script src="scripts/live-match.js"></script>
+        <script>
+            function toggleMenu() {
+                const nav = document.getElementById("main-nav");
+                const btn = document.querySelector(".hamburger");
+                const expanded = btn.getAttribute("aria-expanded") === "true";
+                nav.classList.toggle("open");
+                btn.setAttribute("aria-expanded", !expanded);
+                document.body.style.overflow = nav.classList.contains("open")
+                    ? "hidden"
+                    : "";
+            }
+            window.addEventListener("click", function (e) {
+                const nav = document.getElementById("main-nav");
+                const btn = document.querySelector(".hamburger");
+                if (
+                    nav.classList.contains("open") &&
+                    !nav.contains(e.target) &&
+                    !btn.contains(e.target)
+                ) {
+                    nav.classList.remove("open");
+                    btn.setAttribute("aria-expanded", false);
+                    document.body.style.overflow = "";
+                }
+            });
+        </script>
+    </body>
+</html>
