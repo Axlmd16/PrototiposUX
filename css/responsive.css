@@ -1,0 +1,151 @@
+/* Estilos base mejorados para móviles */
+@media (max-width: 768px) {
+    /* Navegación principal */
+    .main-nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .main-nav a {
+        justify-content: center;
+        padding: 0.8rem;
+    }
+
+    /* Contenedores de contenido */
+    .content-container {
+        padding: 1rem;
+    }
+
+    /* Sistema de pestañas */
+    .tab-buttons,
+    .player-tabs,
+    .team-tabs,
+    .marker-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.3rem;
+    }
+
+    /* Tarjetas de estadísticas */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Jugadores - Vista móvil optimizada */
+    .player-container {
+        flex-direction: column;
+    }
+
+    .player-sidebar {
+        order: 2;
+        margin-top: 1.5rem;
+    }
+
+    .player-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .player-photo {
+        margin-bottom: 1rem;
+    }
+
+    /* Equipos - Vista móvil */
+    .team-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .team-logo {
+        margin-bottom: 1rem;
+    }
+
+    .team-charts {
+        grid-template-columns: 1fr;
+    }
+
+    /* Marcador en tiempo real */
+    .teams {
+        flex-direction: column;
+    }
+
+    .score {
+        margin: 1rem 0;
+        font-size: 2.5rem;
+    }
+
+    .match-controls {
+        flex-wrap: wrap;
+    }
+
+    .btn-action {
+        margin: 0.3rem;
+        flex-grow: 1;
+    }
+
+    /* Mensajes de datos vacíos */
+    .no-data-message {
+        text-align: center;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: var(--border-radius);
+    }
+
+    .no-data-message i {
+        font-size: 2.5rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
+
+    .no-data-message p {
+        margin-bottom: 1.5rem;
+        color: #666;
+    }
+}
+
+/* Mejoras para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .player-container {
+        flex-direction: row;
+    }
+
+    .player-sidebar {
+        width: 35%;
+    }
+
+    .player-details {
+        width: 65%;
+    }
+}
+
+/* Efectos táctiles para móviles */
+@media (hover: none) {
+    .tab-btn {
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .main-nav a {
+        padding: 1rem;
+    }
+
+    .btn {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Aumentar áreas táctiles */
+    .player-list li,
+    .team-player {
+        padding: 1rem;
+    }
+}

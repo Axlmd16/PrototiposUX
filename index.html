@@ -3,199 +3,481 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Soccer Stats - Inicio</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <title>SportsStats Pro | Gestión de Estadísticas Deportivas</title>
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/themes.css" />
+        <link rel="stylesheet" href="css/dashboard.css" />
+        <link rel="stylesheet" href="css/responsive.css" />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         />
-
-        <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
-        <header class="header">
-            <div class="logo">Sport Board</div>
-            <button
-                class="hamburger"
-                aria-label="Abrir menú"
-                aria-controls="main-nav"
-                aria-expanded="false"
-                onclick="toggleMenu()"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav class="nav" id="main-nav">
-                <a href="index.html" class="active">Inicio</a>
-                <a href="team-stats.html">Equipos</a>
-                <a href="player-stats.html">Jugadores</a>
-                <a href="competition-stats.html">Competencias</a>
-                <a href="live-match.html">En Vivo</a>
+        <header class="main-header">
+            <div class="logo-container">
+                <img src="img/logo.png" alt="SportsStats Pro" class="logo" />
+                <h1>SportsStats Pro</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="active" data-section="competencia"
+                            ><i class="fas fa-trophy"></i> Competencia</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" data-section="jugadores"
+                            ><i class="fas fa-users"></i> Jugadores</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" data-section="equipos"
+                            ><i class="fas fa-tshirt"></i> Equipos</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" data-section="marcador"
+                            ><i class="fas fa-stopwatch"></i> Marcador</a
+                        >
+                    </li>
+                </ul>
             </nav>
-            <div class="user-avatar">JD</div>
+            <div class="user-menu">
+                <span class="username">Admin</span>
+                <i class="fas fa-user-circle user-icon"></i>
+            </div>
         </header>
 
-        <div class="container">
-            <h1 class="page-title">Resumen del Equipo</h1>
-
-            <div class="tabs">
-                <a href="#" class="tab active">Estadísticas de Equipo</a>
-                <a href="#" class="tab">Todos</a>
-            </div>
-
-            <div class="team-image">
-                <div class="team-players">
-                    <div class="player">
-                        <div class="player-number">9</div>
-                        <div class="player-name">DELANTERO</div>
+        <main class="content-container">
+            <!-- Sección Competencia -->
+            <section id="competencia" class="content-section active">
+                <h2>Estadísticas de Competencia</h2>
+                <div class="filters">
+                    <select id="comp-select">
+                        <option value="">Todas las competencias</option>
+                        <option value="torneo_ap">Torneo Apertura</option>
+                        <option value="torneo_cl">Torneo Clausura</option>
+                    </select>
+                    <button class="btn btn-primary">Aplicar Filtros</button>
+                </div>
+                <div class="stats-container">
+                    <div class="chart-container">
+                        <canvas id="comp-stats-chart"></canvas>
                     </div>
-                    <div class="player">
-                        <div class="player-number">10</div>
-                        <div class="player-name">ATTACKING</div>
-                    </div>
-                    <div class="player">
-                        <div class="player-number">23</div>
-                        <div class="player-name">DEFENSA</div>
-                    </div>
-                    <div class="player">
-                        <div class="player-number">19</div>
-                        <div class="player-name">MEDIOCAMPO</div>
+                    <div class="table-container">
+                        <table id="comp-stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>Equipo</th>
+                                    <th>PJ</th>
+                                    <th>PG</th>
+                                    <th>PE</th>
+                                    <th>PP</th>
+                                    <th>GF</th>
+                                    <th>GC</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos cargados dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Resultados Recientes</h3>
-                    <div class="stat-value">
-                        <span class="stat-highlight">3</span> victorias,
-                        <span>1</span> empate, <span>1</span> derrota
+            <!-- Sección Jugadores - Versión corregida -->
+            <section id="jugadores" class="content-section">
+                <h2>Estadísticas por Jugador</h2>
+                <div class="player-stats">
+                    <div class="player-search">
+                        <input
+                            type="text"
+                            id="player-search"
+                            placeholder="Buscar jugador..."
+                        />
+                        <button class="btn btn-search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div id="player-results" class="player-results"></div>
+
+                    <div class="player-container">
+                        <div class="player-sidebar">
+                            <h4>Lista de Jugadores</h4>
+                            <ul id="player-list" class="player-list"></ul>
+                        </div>
+
+                        <div class="player-details">
+                            <div class="player-info">
+                                <img
+                                    src="img/player-default.jpg"
+                                    alt="Jugador"
+                                    class="player-photo"
+                                />
+                                <div class="player-data">
+                                    <h3 id="player-name">Nombre del Jugador</h3>
+                                    <p id="player-team">
+                                        Equipo: <span>Los Halcones</span>
+                                    </p>
+                                    <p id="player-position">
+                                        Posición: <span>Delantero</span>
+                                    </p>
+                                    <p id="player-age">Edad: <span>25</span></p>
+                                    <p id="player-nationality">
+                                        Nacionalidad: <span>-</span>
+                                    </p>
+                                    <p id="player-height">
+                                        Altura: <span>-</span>
+                                    </p>
+                                    <p id="player-weight">
+                                        Peso: <span>-</span>
+                                    </p>
+                                    <p id="player-number">
+                                        Dorsal: <span>-</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="player-tabs">
+                                <button
+                                    class="tab-btn active"
+                                    data-tab="stats"
+                                    onclick="openTab(event, 'stats-tab')"
+                                >
+                                    Estadísticas
+                                </button>
+                                <button
+                                    class="tab-btn"
+                                    data-tab="career"
+                                    onclick="openTab(event, 'career-tab')"
+                                >
+                                    Trayectoria
+                                </button>
+                                <button
+                                    class="tab-btn"
+                                    data-tab="matches"
+                                    onclick="openTab(event, 'matches-tab')"
+                                >
+                                    Partidos
+                                </button>
+                            </div>
+
+                            <div class="tab-content active" id="stats-tab">
+                                <div
+                                    id="player-stats-container"
+                                    class="stats-grid detailed"
+                                ></div>
+                                <div class="player-charts">
+                                    <div class="chart-container">
+                                        <h4>Rendimiento</h4>
+                                        <canvas
+                                            id="player-performance-chart"
+                                        ></canvas>
+                                    </div>
+                                    <div class="chart-container">
+                                        <h4>Habilidades</h4>
+                                        <canvas
+                                            id="player-skills-chart"
+                                        ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-content" id="career-tab">
+                                <div
+                                    id="player-career"
+                                    class="career-container"
+                                ></div>
+                            </div>
+
+                            <div class="tab-content" id="matches-tab">
+                                <div
+                                    id="player-matches"
+                                    class="matches-container"
+                                ></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <h3>Clasificación en la Liga</h3>
-                    <div class="stat-value stat-highlight">3er lugar</div>
+            </section>
+
+            <!-- Sección Equipos -->
+            <section id="equipos" class="content-section">
+                <h2>Estadísticas por Equipo</h2>
+                <div class="team-selector">
+                    <select id="team-select">
+                        <option value="">Seleccione un equipo</option>
+                        <option value="halcones">Los Halcones</option>
+                        <option value="aguilas">Águilas FC</option>
+                        <option value="tigres">Tigres UN</option>
+                    </select>
                 </div>
-                <div class="stat-card">
-                    <h3>Próximos Partidos</h3>
-                    <div class="stat-value">
-                        Próximo partido:
-                        <span class="stat-highlight">15 de marzo</span>
+                <div class="team-stats-container">
+                    <div class="team-tabs">
+                        <button
+                            class="tab-btn active"
+                            data-tab="overview"
+                            onclick="openTab(event, 'overview-tab')"
+                        >
+                            Resumen
+                        </button>
+                        <button
+                            class="tab-btn"
+                            data-tab="players"
+                            onclick="openTab(event, 'players-tab')"
+                        >
+                            Plantilla
+                        </button>
+                        <button
+                            class="tab-btn"
+                            data-tab="matches"
+                            onclick="openTab(event, 'matches-tab')"
+                        >
+                            Partidos
+                        </button>
+                    </div>
+                    <div class="tab-content active" id="overview-tab">
+                        <div class="team-overview">
+                            <div class="team-header">
+                                <img
+                                    src="img/team-default.png"
+                                    alt="Escudo del equipo"
+                                    class="team-logo"
+                                />
+                                <div class="team-info">
+                                    <h3 id="team-name">Nombre del Equipo</h3>
+                                    <p id="team-coach">
+                                        Entrenador: <span>Juan Pérez</span>
+                                    </p>
+                                    <p id="team-founded">
+                                        Fundación: <span>2010</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="team-stats">
+                                <div class="stat-item">
+                                    <h4>Partidos Jugados</h4>
+                                    <p class="stat-value">24</p>
+                                </div>
+                                <div class="stat-item">
+                                    <h4>Victorias</h4>
+                                    <p class="stat-value">15</p>
+                                </div>
+                                <div class="stat-item">
+                                    <h4>Empates</h4>
+                                    <p class="stat-value">5</p>
+                                </div>
+                                <div class="stat-item">
+                                    <h4>Derrotas</h4>
+                                    <p class="stat-value">4</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-charts">
+                            <div class="chart-container">
+                                <h4>Goles por Partido</h4>
+                                <canvas id="team-goals-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h4>Posesión Promedio</h4>
+                                <canvas id="team-possession-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="players-tab">
+                        <div id="team-players" class="players-grid"></div>
+                    </div>
+                    <div class="tab-content" id="matches-tab">
+                        <div id="team-matches" class="matches-list"></div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="section">
-                <h2>Resultados Recientes</h2>
-                <table id="recent-results">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Oponente</th>
-                            <th>Resultado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1 de marzo</td>
-                            <td class="team-name">Equipo A</td>
-                            <td><span class="result victory">2-1 (V)</span></td>
-                        </tr>
-                        <tr>
-                            <td>8 de marzo</td>
-                            <td class="team-name">Equipo B</td>
-                            <td><span class="result draw">1-1 (E)</span></td>
-                        </tr>
-                        <tr>
-                            <td>15 de marzo</td>
-                            <td class="team-name">Equipo C</td>
-                            <td><span class="result victory">3-0 (V)</span></td>
-                        </tr>
-                        <tr>
-                            <td>22 de marzo</td>
-                            <td class="team-name">Equipo D</td>
-                            <td><span class="result defeat">0-2 (D)</span></td>
-                        </tr>
-                        <tr>
-                            <td>29 de marzo</td>
-                            <td class="team-name">Equipo E</td>
-                            <td><span class="result victory">2-1 (V)</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="section">
-                <h2>Clasificación en la Liga</h2>
-                <table id="league-table">
-                    <thead>
-                        <tr>
-                            <th>Posición</th>
-                            <th>Equipo</th>
-                            <th>Puntos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="position-number">1</span></td>
-                            <td class="team-name">Equipo X</td>
-                            <td class="points">60</td>
-                        </tr>
-                        <tr>
-                            <td><span class="position-number">2</span></td>
-                            <td class="team-name">Equipo Y</td>
-                            <td class="points">58</td>
-                        </tr>
-                        <tr>
-                            <td><span class="position-number">3</span></td>
-                            <td class="team-name">Equipo Z</td>
-                            <td class="points">55</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="pagination">
+            <!-- Sección Marcador en Tiempo Real -->
+            <section id="marcador" class="content-section">
+                <h2>Marcador en Tiempo Real</h2>
+                <div class="marker-tabs">
                     <button
-                        class="page-btn"
-                        onclick="previousPage()"
-                        id="prev-btn"
+                        class="tab-btn active"
+                        data-tab="live"
+                        onclick="openTab(event, 'live-tab')"
                     >
-                        ‹
+                        En Vivo
                     </button>
-                    <button class="page-btn" onclick="nextPage()" id="next-btn">
-                        ›
+                    <button
+                        class="tab-btn"
+                        data-tab="history"
+                        onclick="openTab(event, 'history-tab')"
+                    >
+                        Historial
                     </button>
                 </div>
-            </div>
-        </div>
+                <div class="tab-content active" id="live-tab">
+                    <div class="live-score-container">
+                        <div class="match-info">
+                            <div class="teams">
+                                <div class="team home-team">
+                                    <img
+                                        src="img/team-default.png"
+                                        alt="Equipo local"
+                                    />
+                                    <h3>Los Halcones</h3>
+                                </div>
+                                <div class="score">
+                                    <span id="home-score">2</span>
+                                    <span>:</span>
+                                    <span id="away-score">1</span>
+                                </div>
+                                <div class="team away-team">
+                                    <img
+                                        src="img/team-default.png"
+                                        alt="Equipo visitante"
+                                    />
+                                    <h3>Águilas FC</h3>
+                                </div>
+                            </div>
+                            <div class="match-details">
+                                <p>Torneo Apertura - Fecha 12</p>
+                                <p id="match-time">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="current-minute">67'</span>
+                                </p>
+                            </div>
+                        </div>
 
-        <script src="scripts/main.js"></script>
+                        <div class="match-controls">
+                            <button id="start-match" class="btn btn-action">
+                                <i class="fas fa-play"></i> Iniciar
+                            </button>
+                            <button id="pause-match" class="btn btn-action">
+                                <i class="fas fa-pause"></i> Pausar
+                            </button>
+                            <button id="end-match" class="btn btn-action">
+                                <i class="fas fa-stop"></i> Finalizar
+                            </button>
+                        </div>
+
+                        <div class="match-events">
+                            <h3>Eventos del Partido</h3>
+                            <ul id="events-list">
+                                <li>
+                                    <span class="event-time">15'</span>
+                                    <span class="event-type goal">⚽ Gol</span>
+                                    - Los Halcones (Jugador #10)
+                                </li>
+                                <li>
+                                    <span class="event-time">32'</span>
+                                    <span class="event-type yellow"
+                                        >🟨 Amarilla</span
+                                    >
+                                    - Águilas FC (Jugador #5)
+                                </li>
+                                <li>
+                                    <span class="event-time">45+2'</span>
+                                    <span class="event-type goal">⚽ Gol</span>
+                                    - Águilas FC (Jugador #9)
+                                </li>
+                                <li>
+                                    <span class="event-time">58'</span>
+                                    <span class="event-type goal">⚽ Gol</span>
+                                    - Los Halcones (Jugador #7)
+                                </li>
+                            </ul>
+
+                            <div class="add-event">
+                                <select id="event-type" class="full-width">
+                                    <option value="goal">Gol</option>
+                                    <option value="yellow">
+                                        Tarjeta Amarilla
+                                    </option>
+                                    <option value="red">Tarjeta Roja</option>
+                                    <option value="sub">Sustitución</option>
+                                </select>
+                                <select id="event-team" class="full-width">
+                                    <option value="home">Local</option>
+                                    <option value="away">Visitante</option>
+                                </select>
+                                <input
+                                    type="text"
+                                    id="event-player"
+                                    placeholder="Jugador"
+                                />
+                                <button id="add-event" class="btn btn-primary">
+                                    Agregar Evento
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="history-tab">
+                    <select id="match-select" class="full-width"></select>
+                    <div id="match-history" class="history-list"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SportsStats Pro</h4>
+                    <p>
+                        Sistema profesional de gestión de estadísticas
+                        deportivas.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p>info@sportsstatspro.com</p>
+                    <p>+1 234 567 890</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2023 SportsStats Pro. Todos los derechos reservados.
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="js/data.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/competencia.js"></script>
+        <script src="js/jugadores.js"></script>
+        <script src="js/equipos.js"></script>
+        <script src="js/marcador.js"></script>
+
         <script>
-            function toggleMenu() {
-                const nav = document.getElementById("main-nav");
-                const btn = document.querySelector(".hamburger");
-                const expanded = btn.getAttribute("aria-expanded") === "true";
-                nav.classList.toggle("open");
-                btn.setAttribute("aria-expanded", !expanded);
-                document.body.style.overflow = nav.classList.contains("open")
-                    ? "hidden"
-                    : "";
-            }
-            // Cerrar menú al hacer click fuera en móviles
-            window.addEventListener("click", function (e) {
-                const nav = document.getElementById("main-nav");
-                const btn = document.querySelector(".hamburger");
-                if (
-                    nav.classList.contains("open") &&
-                    !nav.contains(e.target) &&
-                    !btn.contains(e.target)
-                ) {
-                    nav.classList.remove("open");
-                    btn.setAttribute("aria-expanded", false);
-                    document.body.style.overflow = "";
+            // Función para manejar el cambio de pestañas
+            function openTab(evt, tabName) {
+                // Obtener todos los elementos con class="tab-content" y ocultarlos
+                const tabContents =
+                    document.getElementsByClassName("tab-content");
+                for (let i = 0; i < tabContents.length; i++) {
+                    tabContents[i].classList.remove("active");
                 }
-            });
+
+                // Obtener todos los elementos con class="tab-btn" y quitar la clase "active"
+                const tabButtons = document.getElementsByClassName("tab-btn");
+                for (let i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].classList.remove("active");
+                }
+
+                // Mostrar la pestaña actual y agregar la clase "active" al botón que abrió la pestaña
+                document.getElementById(tabName).classList.add("active");
+                evt.currentTarget.classList.add("active");
+            }
         </script>
     </body>
 </html>
